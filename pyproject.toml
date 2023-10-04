@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "network-coverage-api"
+version = "0.1.0"
+description = "API endpoint to obtain network coverage data for common street adresses"
+authors = ["florianabel <mail@florianabel.com>"]
+readme = "README.md"
+packages = [{include = "network_coverage_api"}]
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+fastapi = "^0.103.2"
+uvicorn = "^0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
