@@ -10,6 +10,7 @@ packages = [{include = "network_coverage_api"}]
 python = "3.11.4"
 fastapi = "^0.103.2"
 uvicorn = "^0.23.2"
+httpx = "^0.25.0"
 
 
 [build-system]
