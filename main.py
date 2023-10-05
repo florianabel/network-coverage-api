@@ -3,15 +3,17 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 app = FastAPI()
 
 
 class ProviderCoverage(BaseModel):
-    two_g: bool = Field(serialization_alias="2G")
-    three_g: bool = Field(serialization_alias="3G")
-    four_g: bool = Field(serialization_alias="4G")
+    model_config = ConfigDict(populate_by_name=True)
+
+    two_g: bool = Field(alias="2G")
+    three_g: bool = Field(alias="3G")
+    four_g: bool = Field(alias="4G")
 
 
 class NetworkCoverage(BaseModel):
