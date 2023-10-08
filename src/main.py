@@ -1,9 +1,12 @@
 import requests
+import pandas as pd
 
 from fastapi import FastAPI
 from pydantic import ValidationError
 
 from .models import NetworkCoverage, Feature, ProviderCoverage
+
+coverage_data = pd.read_csv('src/data/network_coverage.csv', delimiter=';')
 
 app = FastAPI()
 
