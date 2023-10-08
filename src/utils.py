@@ -12,6 +12,7 @@ PROVIDER_CODES = {
     "free": 20815,
     "bouygue": 20820,
 }
+MAXIMUM_DISTANCE_FROM_LOCATION_KM = 10
 
 coverage_data = pd.read_csv('src/data/network_coverage_gps.csv', delimiter=';')
 
@@ -24,7 +25,7 @@ def closest_point_provider(df: pd.DataFrame, point: tuple) -> pd.DataFrame:
         ).kilometers,
         axis=1,
     )
-    return df[df.distance == df.distance.min()]
+    return df[df.distance == df.distance.min()].iloc[0:1,:]
 
 
 def api_call_gouv(q: str) -> Optional[dict]:
@@ -40,10 +41,11 @@ def gps_to_coverage(gps_coordinates: tuple) -> NetworkCoverage:
     for provider, provider_code in PROVIDER_CODES.items():
         df = coverage_data[coverage_data['Operateur'] == provider_code]
         df_closest_point = closest_point_provider(df, gps_coordinates)
-        provider_coverage = ProviderCoverage(
-            two_g=df_closest_point['2G'] == 1,
-            three_g=df_closest_point['3G'] == 1,
-            four_g=df_closest_point['4G'] == 1,
-        )
-        coverage_collection[provider] = provider_coverage
+        if df_closest_point.iloc[0, :]['distance'] < MAXIMUM_DISTANCE_FROM_LOCATION_KM:
+            provider_coverage = ProviderCoverage(
+                two_g=df_closest_point['2G'] == 1,
+                three_g=df_closest_point['3G'] == 1,
+                four_g=df_closest_point['4G'] == 1,
+            )
+            coverage_collection[provider] = provider_coverage
     return NetworkCoverage.model_validate(coverage_collection)
