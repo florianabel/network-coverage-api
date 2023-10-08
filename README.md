@@ -1,4 +1,6 @@
 # network-coverage-api
 #
 # Install with poetry
-# Run with uvicorn src.main:app --reload
+poetry install
+# Run
+Run with uvicorn src.main:app --reload
