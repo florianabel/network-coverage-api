@@ -7,7 +7,7 @@ coverage_data_sfr = coverage_data[coverage_data['Operateur'] == 20810]
 coverage_data_free = coverage_data[coverage_data['Operateur'] == 20815]
 coverage_data_bouygue = coverage_data[coverage_data['Operateur'] == 20820]
 
-def closest_point(df: pd.DataFrame, point: tuple) -> pd.DataFrame:
+def _closest_point(df: pd.DataFrame, point: tuple) -> pd.DataFrame:
     df['distance'] = df.apply(
         lambda x: distance.great_circle(
             (x['lat'], x['long']), 
@@ -18,13 +18,13 @@ def closest_point(df: pd.DataFrame, point: tuple) -> pd.DataFrame:
     return df[df.distance == df.distance.min()]
 
 def closest_point_orange(point: tuple) -> pd.DataFrame:
-    return closest_point(coverage_data_orange, point)
+    return _closest_point(coverage_data_orange, point)
 
 def closest_point_sfr(point: tuple) -> pd.DataFrame:
-    return closest_point(coverage_data_sfr, point)
+    return _closest_point(coverage_data_sfr, point)
 
 def closest_point_free(point: tuple) -> pd.DataFrame:
-    return closest_point(coverage_data_free, point)
+    return _closest_point(coverage_data_free, point)
 
 def closest_point_bouygue(point: tuple) -> pd.DataFrame:
-    return closest_point(coverage_data_bouygue, point)
+    return _closest_point(coverage_data_bouygue, point)
